@@ -26,7 +26,7 @@ p1_counter = 0
 stack = []
 ts = dt.datetime.now().strftime('%Y%m%d%H%M%S')
 
-while p1_counter<72:
+while p1_counter<36:
 	p1_line = ''
 	try:
 		p1_raw = ser.readline()
@@ -65,9 +65,9 @@ for variable in id:
 	except:
 		reading[variable] = selected_row[0][id[variable]['loc'][0]:id[variable]['loc'][1]]
 
-with open("latest_reading.txt",'w') as fp:
-	for line in stack:
-		fp.write("%s\n" % line)
+#with open("latest_reading.txt",'w') as fp:
+#	for line in stack:
+#		fp.write("%s\n" % line)
 
 with open("latest_values.csv",'w') as csvfile:
 	writer = csv.writer(csvfile)
@@ -81,5 +81,3 @@ try:
 	ser.close()
 except:
 	sys.exit("Failed to close %s. Program stopped" % ser.name)
-
-
