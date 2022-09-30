@@ -1,0 +1,13 @@
+dirs:
+  database: db
+  source: src
+
+database:
+  name: gas-elec.sqlite
+  tables:
+    rawdata:
+     cols:
+       - tag_name: TEXT
+       - timestamp: REAL
+       - value: REAL
+     primary key: (tag_name,timestamp)

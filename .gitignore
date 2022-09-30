@@ -130,4 +130,5 @@ dmypy.json
 
 # output files
 *.txt
+!requirements.txt
 *.csv
