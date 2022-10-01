@@ -77,12 +77,8 @@ if __name__ == "__main__":
 
 	msg = retrieve_p1_msg(ser)
 
-	id = {	'gas_ts':{'regex':r'24.2.1',
-			'loc':(13,26)},
-		'gas':{	'regex':r'24.2.1',
+	id = {	'gas':{	'regex':r'24.2.1',
 			'loc':(28,37)},
-		'elec_ts':{'regex':r'1.0.0',
-			'loc':(12,25)},
 		'elec_t1':{'regex':r'1.8.1',
 			'loc':(12,22)},
 		'elec_t2':{'regex':r'1.8.2',

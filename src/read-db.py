@@ -61,7 +61,7 @@ if __name__ == "__main__":
 	db = conf['database']['name']
 	connection = create_connection(os.path.join(root,conf['dirs']['database'],db))
 
-	tag = 'elec_t2'
+	tag = 'gas'
 	start_dt = dt.datetime(2022,1,1,0,0,0)
 	end_dt = dt.datetime.now()
 
