@@ -1,0 +1,15 @@
+[Unit]
+Description=Smartmeter Frontend
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+
+Restart=always
+RestartSec=1
+Type=simple
+User=beerm
+ExecStart=bash /home/beerm/Documents/python/smartmeter/start-frontend.sh
+
+[Install]
+WantedBy=multi-user.target
