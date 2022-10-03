@@ -1,2 +1,5 @@
 pyserial
 pyyaml
+fastapi
+uvicorn
+streamlit==0.62
