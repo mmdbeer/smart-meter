@@ -6,6 +6,7 @@ import yaml
 import time
 import pandas as pd
 import json
+import numpy as np
 
 class ReadDB:
 
@@ -20,6 +21,8 @@ class ReadDB:
 		db = conf['database']['name']
 		self.connection = self.create_connection(os.path.join(root,conf['dirs']['database'],db))
 		self.server_url = "http://0.0.0.0:8432"
+
+		self.time_units = {'h':3600,'d':24*3600,'w':7*24*3600,'y':365*24*3600}
 
 	def create_connection(self,path):
 		connection = None
@@ -44,6 +47,28 @@ class ReadDB:
 	def datetime_to_unix(self,timestamp_dt):
 		unix = time.mktime(timestamp_dt.timetuple())
 		return unix
+
+	def find_nearest(self,array,value):
+		array = np.asarray(array)
+		idx = (np.abs(array-value)).argmin()
+		return idx
+
+	def get_data(self,tagname,start_ux,end_ux,aggr: tuple = None):
+		df = self.get_rawdata(tagname,start_ux,end_ux)['data']
+		if aggr:
+			if not aggr[1] in self.time_units:
+				print('Warning, wrong aggregate input! Showing raw data instead')
+			else:
+				tstep = aggr[0]*self.time_units[aggr[1]]
+			t = df.iloc[-1].name
+			t0 = t-tstep
+			idx0 = self.find_nearest(df.index,t0)
+			print(f"t0={t0}")
+			print(f"length:{len(df)}")
+			print(f"t0_real={df.index[idx0]}")
+			print(idx0)
+			print(t-df.iloc[idx0].name)
+		return df
 
 	def get_rawdata(self,tagname,start_ux,end_ux):
 
@@ -83,8 +108,10 @@ class ReadDB:
 if __name__ == "__main__":
 
 	tag = 'gas'
-	start_dt = dt.datetime(2022,1,1,0,0,0)
-	end_dt = dt.datetime.now()
+
 	read_db = ReadDB()
-	data = read_db.get_rawdata(tag,read_db.datetime_to_unix(start_dt),read_db.datetime_to_unix(end_dt))
-	print(data)
+	start = read_db.datetime_to_unix(dt.datetime(2022,1,1,0,0,0))
+	end_dt = read_db.datetime_to_unix(dt.datetime.now())
+	aggr=(1,'h')
+	data = read_db.get_data(tag,start,end_dt,aggr)
+
