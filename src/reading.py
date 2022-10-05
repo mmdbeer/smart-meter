@@ -63,7 +63,7 @@ def insert_data(data,table,connection):
 if __name__ == "__main__":
 
 	cwd = os.getcwd()
-	rootkey = "smartmeter"
+	rootkey = "utilities"
 	root = os.path.join(cwd.split(rootkey)[0],rootkey)
 
 	with open(os.path.join(root,'config','config.yml'),"r") as f:

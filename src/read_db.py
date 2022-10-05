@@ -11,7 +11,7 @@ class ReadDB:
 
 	def __init__(self):
 		cwd = os.getcwd()
-		rootkey = 'smartmeter'
+		rootkey = 'utilities'
 		root = os.path.join(cwd.split(rootkey)[0],rootkey)
 
 		with open(os.path.join(root,'config','config.yml'),'r') as f:
