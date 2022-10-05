@@ -47,12 +47,16 @@ class Frontend():
 
 		start = st.date_input("Startdate", dt.date.today()-dt.timedelta(1))
 		end =  st.date_input("Enddate", dt.date.today())
-		var = st.selectbox('select variable', ('gas','elec_t1','elec_t2'))
+		var = st.selectbox('select variable', ('gas','elec_t1','elec_t2','elec_-t1','elec_-t2'))
+		time_val = st.number_input('time interval for binning',min_value=1,value=1)
+		time_unit = st.selectbox('select time unit', ('h','d','w','y'))
 		self.var = var
 		if st.button('Retrieve data'):
 			input = {'start': time.mktime(start.timetuple()),
 				'end': time.mktime(end.timetuple()),
-				'var': var
+				'var': var,
+				'time_val':time_val,
+				'time_unit':time_unit,
 				}
 			res = self.send_to_server('/retrieve_data',input)
 

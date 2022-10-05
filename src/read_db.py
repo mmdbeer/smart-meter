@@ -53,22 +53,32 @@ class ReadDB:
 		idx = (np.abs(array-value)).argmin()
 		return idx
 
-	def get_data(self,tagname,start_ux,end_ux,aggr: tuple = None):
+	def get_data(self,tagname,start_ux,end_ux,bin: tuple = None):
 		df = self.get_rawdata(tagname,start_ux,end_ux)['data']
-		if aggr:
-			if not aggr[1] in self.time_units:
-				print('Warning, wrong aggregate input! Showing raw data instead')
+
+		if bin:
+			if not bin[1] in self.time_units:
+				print('Warning, wrong binning input! Showing raw data instead')
 			else:
-				tstep = aggr[0]*self.time_units[aggr[1]]
-			t = df.iloc[-1].name
-			t0 = t-tstep
-			idx0 = self.find_nearest(df.index,t0)
-			print(f"t0={t0}")
-			print(f"length:{len(df)}")
-			print(f"t0_real={df.index[idx0]}")
-			print(idx0)
-			print(t-df.iloc[idx0].name)
-		return df
+				tstep = bin[0]*self.time_units[bin[1]]
+			idx0 = len(df)-2
+			t0 = df.index[idx0]
+			tend = df.index[0]
+			t = t0
+			tlist=[]
+			vallist=[]
+			while t-tstep>tend:
+				idx1 = self.find_nearest(df.index,t-tstep)
+				t1 = df.index[idx1]
+				if t1 == t:
+					break
+				val = df.loc[t,tagname]-df.loc[t1,tagname]
+				tlist.append(t)
+				vallist.append(val)
+				t = t1
+
+			dfbin = pd.DataFrame(data=vallist,index=tlist,columns=[tagname])
+		return {'data':dfbin}
 
 	def get_rawdata(self,tagname,start_ux,end_ux):
 
@@ -112,6 +122,6 @@ if __name__ == "__main__":
 	read_db = ReadDB()
 	start = read_db.datetime_to_unix(dt.datetime(2022,1,1,0,0,0))
 	end_dt = read_db.datetime_to_unix(dt.datetime.now())
-	aggr=(1,'h')
-	data = read_db.get_data(tag,start,end_dt,aggr)
+	bin=(1,'h')
+	data = read_db.get_data(tag,start,end_dt,bin)
 

@@ -14,7 +14,11 @@ async def root():
 @app.post("/retrieve_data")
 async def retrieve_data(input: Input):
 	print("starting db reading")
-	output = readdb.get_rawdata(tagname=input.var, start_ux=input.start, end_ux = input.end)
+	output = readdb.get_data(tagname=input.var,
+				start_ux=input.start,
+				end_ux=input.end,
+				bin=(float(input.time_val),str(input.time_unit))
+				)
 
 	return output['data'].to_json()
 
