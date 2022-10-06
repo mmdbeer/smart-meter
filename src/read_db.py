@@ -22,7 +22,7 @@ class ReadDB:
 		self.connection = self.create_connection(os.path.join(root,conf['dirs']['database'],db))
 		self.server_url = "http://0.0.0.0:8432"
 
-		self.time_units = {'h':3600,'d':24*3600,'w':7*24*3600,'y':365*24*3600}
+		self.time_units = {'m':60,'h':3600,'d':24*3600,'w':7*24*3600,'y':365*24*3600}
 
 	def create_connection(self,path):
 		connection = None
