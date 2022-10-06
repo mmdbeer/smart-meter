@@ -4,3 +4,4 @@ fastapi
 uvicorn
 streamlit
 matplotlib
+plotly

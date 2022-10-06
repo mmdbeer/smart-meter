@@ -1,0 +1,8 @@
+[theme]
+base="dark"
+#primaryColor="purple"
+#primaryColor = "#141723"
+#backgroundColor = "#141723"
+#secondaryBackgroundColor="#383948"
+#textColor="#FFFFFF"
+#font="sans serif"
