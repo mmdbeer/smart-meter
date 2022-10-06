@@ -61,7 +61,7 @@ class ReadDB:
 				print('Warning, wrong binning input! Showing raw data instead')
 			else:
 				tstep = bin[0]*self.time_units[bin[1]]
-			idx0 = len(df)-2
+			idx0 = len(df)-1
 			t0 = df.index[idx0]
 			tend = df.index[0]
 			t = t0
@@ -78,6 +78,11 @@ class ReadDB:
 				t = t1
 
 			dfbin = pd.DataFrame(data=vallist,index=tlist,columns=[tagname])
+			sumcheck =abs(dfbin.sum(axis=0)[tagname]/(df.loc[df.index[-1],tagname]-df.loc[t,tagname])-1.)
+			if sumcheck > 0.05:
+				print('ERROR: data binning not correct')
+				raise Exception('data binning not correct')
+
 		return {'data':dfbin}
 
 	def get_rawdata(self,tagname,start_ux,end_ux):
