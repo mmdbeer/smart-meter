@@ -82,7 +82,8 @@ class ReadDB:
 			if sumcheck > 0.05:
 				print('ERROR: data binning not correct')
 				raise Exception('data binning not correct')
-
+		else:
+			return {'data':df}
 		return {'data':dfbin}
 
 	def get_rawdata(self,tagname,start_ux,end_ux):
