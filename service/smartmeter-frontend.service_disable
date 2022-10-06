@@ -9,7 +9,7 @@ Restart=always
 RestartSec=1
 Type=simple
 User=beerm
-ExecStart=bash /home/beerm/Documents/projects/utilities/start-frontend.sh
+ExecStart=bash /home/beerm/projects/utilities/start-frontend.sh
 
 [Install]
 WantedBy=multi-user.target

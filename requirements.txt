@@ -2,6 +2,5 @@ pyserial
 pyyaml
 fastapi
 uvicorn
-streamlit==0.62
-click==8.0
+streamlit
 matplotlib
