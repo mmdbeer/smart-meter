@@ -10,6 +10,7 @@ import sqlite3 as sq
 import os
 import yaml
 from sqlite3 import Error
+import numpy as np
 
 def open_serial_p1_port():
 	ser = serial.Serial()
@@ -74,6 +75,7 @@ if __name__ == "__main__":
 	ser = open_serial_p1_port()
 
 	ts = time.time()
+	print(dt.datetime.now())
 
 	msg = retrieve_p1_msg(ser)
 
@@ -82,15 +84,20 @@ if __name__ == "__main__":
 			txtfile.write("%s\n" % row)
 
 	id = {	'gas':{	'regex':r'24.2.1',
-			'loc':(28,37)},
+			'loc':(28,37),
+			'loc_reg':'*m3'},
 		'elec_t1':{'regex':r'1.8.1',
-			'loc':(12,22)},
+			'loc':(12,22),
+			'loc_reg':'*kWh'},
 		'elec_t2':{'regex':r'1.8.2',
-			'loc':(12,22)},
+			'loc':(12,22),
+			'loc_reg':'*kWh'},
 		'elec_-t1':{'regex':r'2.8.1',
-			'loc':(12,22)},
+			'loc':(12,22),
+			'loc_reg':'*kWh'},
 		'elec_-t2':{'regex':r'2.8.2',
-			'loc':(12,22)}
+			'loc':(12,22),
+			'loc_reg':'*kWh'}
 		}
 
 	reading = {}
@@ -100,10 +107,14 @@ if __name__ == "__main__":
 		regex = re.compile(id[variable]['regex'])
 		selected_row = list(filter(regex.search, msg))
 
+		tmp = selected_row.split(id[variable]['loc_reg'])[0]
+		val = tmp[tmp.rfind('(')+1:]
 		try:
-			val = float(selected_row[0][id[variable]['loc'][0]:id[variable]['loc'][1]])
+			print(val)
+			val = float(val)
 		except:
-			val = selected_row[0][id[variable]['loc'][0]:id[variable]['loc'][1]]
+			print('Error no reading; non numerical value')
+			val = np.nan
 
 		datalist.append((variable,ts,val))
 		reading[variable] = val
