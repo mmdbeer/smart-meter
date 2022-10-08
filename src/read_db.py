@@ -105,7 +105,10 @@ class ReadDB:
 		data_list=[]
 		for tuple in data:
 			dt_list.append(tuple[0])
-			data_list.append(float(tuple[1])) 
+			try:
+				data_list.append(float(tuple[1]))
+			except:
+				data_list.append(float('nan'))
 
 		df = pd.DataFrame(data=data_list,index=dt_list,columns=[tagname])
 
@@ -130,4 +133,4 @@ if __name__ == "__main__":
 	end_dt = read_db.datetime_to_unix(dt.datetime.now())
 	bin=(1,'h')
 	data = read_db.get_data(tag,start,end_dt,bin)
-
+	print(data['data'])

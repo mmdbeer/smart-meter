@@ -3,4 +3,4 @@ echo "Python environment activated"
 
 cd /home/beerm/projects/utilities
 echo "Current working directory: $PWD" 
-python src/server.py %> server.log
+python src/server.py %> logs/server.log

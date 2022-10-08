@@ -105,8 +105,8 @@ if __name__ == "__main__":
 		tmp = selected_row[0].split(id[variable]['loc_reg'])[0]
 		val = tmp[tmp.rfind('(')+1:]
 		try:
-			print(val)
 			val = float(val)
+			print(f"{variable}:{val}")
 		except:
 			print('Error no reading; non numerical value')
 			val = np.nan

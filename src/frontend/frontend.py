@@ -16,7 +16,6 @@ class Frontend():
 				)
 		self.server_url = "http://0.0.0.0:8432"
 
-	@st.cache
 	def send_to_server(self,path,data_dict:None):
 		url = self.server_url
 		url += path
@@ -35,7 +34,10 @@ class Frontend():
 		vallist = []
 
 		for key in data[var]:
-			val = float(data[var][key])
+			try:
+				val = float(data[var][key])
+			except:
+				val = float('nan')
 			date = dt.datetime.fromtimestamp(float(key))
 			dates.append(str(date))
 			vallist.append(val)
