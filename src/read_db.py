@@ -73,15 +73,20 @@ class ReadDB:
 				if t1 == t:
 					break
 				val = df.loc[t,tagname]-df.loc[t1,tagname]
-				tlist.append(t)
-				vallist.append(val)
+				tlist.append(float(t))
+				try:
+					vallist.append(float(val))
+				except:
+					vallist.append(float('nan'))
+
 				t = t1
 
 			dfbin = pd.DataFrame(data=vallist,index=tlist,columns=[tagname])
-			sumcheck =abs(dfbin.sum(axis=0)[tagname]/(df.loc[df.index[-1],tagname]-df.loc[t,tagname])-1.)
+			sumcheck =abs(dfbin.sum(axis=0)[tagname]-(df.loc[df.index[-1],tagname]-df.loc[t,tagname]))/dfbin.sum(axis=0)[tagname]
+			print(sumcheck)
 			if sumcheck > 0.05:
 				print('ERROR: data binning not correct')
-				raise Exception('data binning not correct')
+				#raise Exception('data binning not correct')
 		else:
 			return {'data':df}
 		return {'data':dfbin}

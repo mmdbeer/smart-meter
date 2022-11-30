@@ -73,11 +73,13 @@ class Frontend():
 				}
 
 			res = self.send_to_server('/retrieve_data',input)
-			data[var] = self.parse_json_to_df(res.json(),var)
-			if df.empty:
-				df = data[var].copy()
-			else:
-				df = pd.concat([df,data[var]],axis=1)
+			#st.write(res.status_code)
+			if res.status_code == 200:
+				data[var] = self.parse_json_to_df(res.json(),var)
+				if df.empty:
+					df = data[var].copy()
+				else:
+					df = pd.concat([df,data[var]],axis=1)
 		df['date'] = df.index
 		df=df.rename(columns={'elec_t1':'low','elec_t2':'high'})
 
