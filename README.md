@@ -1,9 +1,19 @@
-# smartmeter
+# Smartmeter
+
+This application automates the reading of a smartmeter and displays the output on a Streamlit dashboard.
 
 ## 0. Prerequisites
 
+### Hardware
+- Raspberry pi (or any constantly running (single board) computer), with USB port.
+- Access to LAN only required if frontend must be accessible through the network.
+- P1 smartmeter cable to connect from RJ11 port on smartmeter to USB on Raspberry pi.
+- Tested on: raspberry pi 3b+, KFM5KAIFA smartmeter
+
+### Software
 - Create python virtual environment, eg *util-env* with `python -m venv util-env` 
 - In *util-env*: `pip install -r requirements.txt`
+- others?
 
 ## 1. Set up smartmeter data reading and storage
 
