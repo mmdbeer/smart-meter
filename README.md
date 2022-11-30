@@ -1,11 +1,12 @@
 # smartmeter
 
 1. Set up smartmeter data reading and storage
-	- adjust config to local settings
-	- run create_db.py 
-	- make read-meter.sh executable with sudo chmod +x read-meter.sh
+	- adjust root_config to local settings
+	- run ./src/create-db.py 
+	- make ./read-meter.sh executable with sudo chmod +x read-meter.sh
 	- crontab-e 
-	- add executing read-meter.sh to crontab: eg """ */5 * * * * bash /home/beerm/projects/utilities/read-meter.sh >> /home/beerm/projects/utilities/logs/cron.log 2>&1 """ 
+	- add executing read-meter.sh to crontab with desired frequency, and adjust root to local settings, eg:
+	 """ */5 * * * * root="/home/beerm/projects/utilities" && bash ${root}/read-meter.sh -r $root >> ${root}/logs/cron.log 2>&1 """ 
 	- sudo systemctl restart cron
 2. api & frontend as service
 	- make start-server.sh and start-frontend.sh executable with sudo chmod +x start-server.sh
