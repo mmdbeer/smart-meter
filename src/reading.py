@@ -115,7 +115,6 @@ if __name__ == "__main__":
 		reading[variable] = val
 
 	connection = create_connection(os.path.join(root,conf['dirs']['database'],db))
-	print(datalist)
 	insert_data(datalist,"rawdata",connection)
 	connection.close()
 
