@@ -9,7 +9,7 @@ Restart=always
 RestartSec=1
 Type=simple
 User=beerm
-ExecStart=bash /home/beerm/projects/utilities/start-server.sh
+ExecStart=root="/home/beerm/projects/utilities" && bash ${root}/start-server.sh -r $root
 
 [Install]
 WantedBy=multi-user.target
