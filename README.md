@@ -19,13 +19,13 @@ This application automates the reading of a smartmeter and displays the output o
 
 ## 1. Set up smartmeter data reading and storage
 
-- adjust *root_config* file to local settings
+- adjust *./config/root_config* file to local settings
 - activate python environment and run `python ./src/create-db.py` 
 - make *./read-meter.sh* executable with `sudo chmod +x read-meter.sh`
 - run `crontab-e` 
 - add executing *./read-meter.sh* to crontab with desired frequency, and adjust ROOT to local settings, eg:
 
- `*/5 * * * * ROOT="/home/beerm/projects/utilities" && bash ${ROOT}/read-meter.sh -r $ROOT >> ${ROOT}/logs/cron.log 2>&1`
+ `*/5 * * * * ROOT="/home/beerm/projects/smart-meter" && bash ${ROOT}/read-meter.sh -r $ROOT >> ${ROOT}/logs/cron.log 2>&1`
 
 - run `sudo systemctl restart cron`
 	
