@@ -64,7 +64,7 @@ def insert_data(data,table,connection):
 if __name__ == "__main__":
 
 	cwd = os.getcwd()
-	rootkey = "utilities"
+	rootkey = "smart-meter"
 	root = os.path.join(cwd.split(rootkey)[0],rootkey)
 
 	with open(os.path.join(root,'config','config.yml'),"r") as f:
@@ -115,7 +115,9 @@ if __name__ == "__main__":
 		reading[variable] = val
 
 	connection = create_connection(os.path.join(root,conf['dirs']['database'],db))
+	print(datalist)
 	insert_data(datalist,"rawdata",connection)
+	connection.close()
 
 	try:
 		ser.close()

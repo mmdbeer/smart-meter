@@ -12,14 +12,15 @@ class ReadDB:
 
 	def __init__(self):
 		cwd = os.getcwd()
-		rootkey = 'utilities'
-		root = os.path.join(cwd.split(rootkey)[0],rootkey)
+		rootkey = 'smart-meter'
+		self.root = os.path.join(cwd.split(rootkey)[0],rootkey)
 
-		with open(os.path.join(root,'config','config.yml'),'r') as f:
+		with open(os.path.join(self.root,'config','config.yml'),'r') as f:
 			conf = yaml.safe_load(f)
 
-		db = conf['database']['name']
-		self.connection = self.create_connection(os.path.join(root,conf['dirs']['database'],db))
+		self.db = conf['database']['name']
+		self.db_dir = conf['dirs']['database']
+
 		self.server_url = "http://0.0.0.0:8432"
 
 		self.time_units = {'m':60,'h':3600,'d':24*3600,'w':7*24*3600,'y':365*24*3600}
@@ -54,7 +55,11 @@ class ReadDB:
 		return idx
 
 	def get_data(self,tagname,start_ux,end_ux,bin: tuple = None):
+
+		self.connection = self.create_connection(os.path.join(self.root,self.db_dir,self.db))
+
 		df = self.get_rawdata(tagname,start_ux,end_ux)['data']
+		df = df.sort_index(ascending=True)
 
 		if bin:
 			if not bin[1] in self.time_units:
@@ -70,8 +75,9 @@ class ReadDB:
 			while t-tstep>tend:
 				idx1 = self.find_nearest(df.index,t-tstep)
 				t1 = df.index[idx1]
-				if t1 == t:
-					break
+				if t1 == t and idx1-1>0:
+					t1 = df.index[idx1-1]
+
 				val = df.loc[t,tagname]-df.loc[t1,tagname]
 				tlist.append(float(t))
 				try:
@@ -82,13 +88,17 @@ class ReadDB:
 				t = t1
 
 			dfbin = pd.DataFrame(data=vallist,index=tlist,columns=[tagname])
+			print(dfbin)
 			sumcheck =abs(dfbin.sum(axis=0)[tagname]-(df.loc[df.index[-1],tagname]-df.loc[t,tagname]))/dfbin.sum(axis=0)[tagname]
 			print(sumcheck)
 			if sumcheck > 0.05:
 				print('ERROR: data binning not correct')
 				#raise Exception('data binning not correct')
 		else:
+			self.connection.close()
 			return {'data':df}
+
+		self.connection.close()
 		return {'data':dfbin}
 
 	def get_rawdata(self,tagname,start_ux,end_ux):
@@ -117,7 +127,7 @@ class ReadDB:
 
 		df = pd.DataFrame(data=data_list,index=dt_list,columns=[tagname])
 
-		self.send_output_to_server(df)
+		#self.send_output_to_server(df)
 		return {'data':df}
 
 	def send_output_to_server(self,data):

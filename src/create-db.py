@@ -38,7 +38,7 @@ def create_data_table(table,connection,cols,prim_key):
 if __name__ == "__main__":
 
 	cwd = os.getcwd()
-	rootkey = 'utilities'
+	rootkey = 'smart-meter'
 	root = os.path.join(cwd.split(rootkey)[0],rootkey)
 
 	with open(os.path.join(root,'config','config.yml'),"r") as f:
@@ -49,3 +49,4 @@ if __name__ == "__main__":
 	connection = create_connection(os.path.join(root,conf['dirs']['database'],db))
 	for table in conf['database']['tables']:
 		create_data_table(table=table,connection=connection,cols=conf['database']['tables'][table]['cols'],prim_key=conf['database']['tables'][table]['primary key'])
+	connection.close()
