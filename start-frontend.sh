@@ -21,7 +21,7 @@ if [ ! "${root}" ]; then
 fi
 
 #read config file
-source "${root}/root_config"
+source "${root}/config/root_config"
 
 #activate python environment
 source "${pyenv}/bin/activate"
