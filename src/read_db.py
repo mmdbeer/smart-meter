@@ -75,9 +75,11 @@ class ReadDB:
 			while t-tstep>tend:
 				idx1 = self.find_nearest(df.index,t-tstep)
 				t1 = df.index[idx1]
-				if t1 == t and idx1-1>0:
-					t1 = df.index[idx1-1]
-
+				if t1 == t:
+					if idx1>0:
+						t1 = df.index[idx1-1]
+					else:
+						break
 				val = df.loc[t,tagname]-df.loc[t1,tagname]
 				tlist.append(float(t))
 				try:
