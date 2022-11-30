@@ -90,7 +90,6 @@ class ReadDB:
 				t = t1
 
 			dfbin = pd.DataFrame(data=vallist,index=tlist,columns=[tagname])
-			print(dfbin)
 			sumcheck =abs(dfbin.sum(axis=0)[tagname]-(df.loc[df.index[-1],tagname]-df.loc[t,tagname]))/dfbin.sum(axis=0)[tagname]
 			print(sumcheck)
 			if sumcheck > 0.05:
