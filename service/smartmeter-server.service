@@ -8,7 +8,7 @@ Restart=always
 RestartSec=1
 Type=simple
 User=beerm
-Environment=ROOT='/home/beerm/projects/utilities'
+Environment=ROOT='/home/beerm/projects/smart-meter'
 ExecStart=bash ${ROOT}/start-server.sh -r $ROOT
 
 [Install]
