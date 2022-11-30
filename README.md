@@ -1,7 +1,7 @@
 # smartmeter
 
 1. Set up smartmeter data reading and storage
-	- adjust root_config to local settings
+	- adjust root_config file to local settings
 	- run ./src/create-db.py 
 	- make ./read-meter.sh executable with `sudo chmod +x read-meter.sh`
 	- run `crontab-e` 
