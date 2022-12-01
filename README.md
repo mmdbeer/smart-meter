@@ -18,6 +18,7 @@ This application automates the reading of a smartmeter and displays the output o
 - others?
 
 ## 1. Set up smartmeter data reading and storage
+The script to read the message from the smart-meter, *./src/reading.py* is based on work by Erik Schrama: [github gist](https://gist.github.com/eas-ml-36/5087bdfe4f12dc8f6a892788974b62f4#file-gistfile1-txt). The exact location of the gas and electricity numbers differs for each smart-meter type. Electricity is typically shown as eg `(.....*kWh)` and gas usage as `(.....*m3)`.
 
 - adjust *./config/root_config* file to local settings
 - activate python environment and run `python ./src/create-db.py` 
