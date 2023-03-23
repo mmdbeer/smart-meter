@@ -71,6 +71,7 @@ if __name__ == "__main__":
 		conf = yaml.safe_load(f)
 
 	db = conf['database']['name']
+	vars = conf['vars']
 
 	ser = open_serial_p1_port()
 
@@ -83,25 +84,13 @@ if __name__ == "__main__":
 		for row in msg:
 			txtfile.write("%s\n" % row)
 
-	id = {	'gas':{	'var_string':r'24.2.1',
-			'unit':'*m3'},
-		'elec_t1':{'var_string':r'1.8.1',
-			'unit':'*kWh'},
-		'elec_t2':{'var_string':r'1.8.2',
-			'unit':'*kWh'},
-		'elec_-t1':{'var_string':r'2.8.1',
-			'unit':'*kWh'},
-		'elec_-t2':{'var_string':r'2.8.2',
-			'unit':'*kWh'}
-		}
-
 	reading = {}
 	datalist = []
 
-	for var in id:
-		select_row = [row for row in msg if id[var]['var_string'] in row]
+	for var in vars:
+		select_row = [row for row in msg if vars[var]['var_string'] in row]
 
-		tmp = select_row[0].split(id[var]['unit'])[0]
+		tmp = select_row[0].split(vars[var]['unit'])[0]
 		val = tmp[tmp.rfind('(')+1:]
 		try:
 			val = float(val)

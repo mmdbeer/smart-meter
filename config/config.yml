@@ -11,3 +11,20 @@ database:
        - timestamp: REAL
        - value: REAL
      primary key: (tag_name,timestamp)
+
+vars:
+  gas:
+    var_string: '24.2.1'
+    unit: '*m3'
+  elec_t1:
+    var_string: '1.8.1'
+    unit: '*kWh'
+  elec_t2:
+    var_string: '1.8.2'
+    unit: '*kWh'
+  elec_-t1:
+    var_string: '2.8.1'
+    unit: '*kWh'
+  elec_-t2:
+    var_string: '2.8.2'
+    unit: '*kWh'
