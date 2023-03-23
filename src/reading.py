@@ -83,36 +83,35 @@ if __name__ == "__main__":
 		for row in msg:
 			txtfile.write("%s\n" % row)
 
-	id = {	'gas':{	'regex':r'24.2.1',
-			'loc_reg':'*m3'},
-		'elec_t1':{'regex':r'1.8.1',
-			'loc_reg':'*kWh'},
-		'elec_t2':{'regex':r'1.8.2',
-			'loc_reg':'*kWh'},
-		'elec_-t1':{'regex':r'2.8.1',
-			'loc_reg':'*kWh'},
-		'elec_-t2':{'regex':r'2.8.2',
-			'loc_reg':'*kWh'}
+	id = {	'gas':{	'var_string':r'24.2.1',
+			'unit':'*m3'},
+		'elec_t1':{'var_string':r'1.8.1',
+			'unit':'*kWh'},
+		'elec_t2':{'var_string':r'1.8.2',
+			'unit':'*kWh'},
+		'elec_-t1':{'var_string':r'2.8.1',
+			'unit':'*kWh'},
+		'elec_-t2':{'var_string':r'2.8.2',
+			'unit':'*kWh'}
 		}
 
 	reading = {}
 	datalist = []
 
-	for variable in id:
-		regex = re.compile(id[variable]['regex'])
-		selected_row = list(filter(regex.search, msg))
+	for var in id:
+		select_row = [row for row in msg if id[var]['var_string'] in row]
 
-		tmp = selected_row[0].split(id[variable]['loc_reg'])[0]
+		tmp = select_row[0].split(id[var]['unit'])[0]
 		val = tmp[tmp.rfind('(')+1:]
 		try:
 			val = float(val)
-			print(f"{variable}:{val}")
+			print(f"{var}:{val}")
 		except:
 			print('Error no reading; non numerical value')
 			val = np.nan
 
-		datalist.append((variable,ts,val))
-		reading[variable] = val
+		datalist.append((var,ts,val))
+		reading[var] = val
 
 	connection = create_connection(os.path.join(root,conf['dirs']['database'],db))
 	insert_data(datalist,"rawdata",connection)
