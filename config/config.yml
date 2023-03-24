@@ -1,5 +1,5 @@
 dirs:
-  database: db
+  database: '/mnt/bckp/smartmeter/db'
   source: src
 
 database:
