@@ -64,7 +64,7 @@ class Frontend():
 		data = {}
 		df = pd.DataFrame()
 
-		for var in  ['gas','elec_t1','elec_t2']:
+		for var in  ['gas','elec_t1','elec_t2','elec_-t1','elec_-t2']:
 			input = {'start': time.mktime(start.timetuple()),
 				'end': time.mktime(end.timetuple()),
 				'var': var,
@@ -81,7 +81,9 @@ class Frontend():
 				else:
 					df = pd.concat([df,data[var]],axis=1)
 		df['date'] = df.index
-		df=df.rename(columns={'elec_t1':'low','elec_t2':'high'})
+		#df=df.rename(columns={'elec_t1':'low','elec_t2':'high'})
+		df['drawn']=df['elec_t1']+df['elec_t2']
+		df['delivered']=df['elec_-t1']+df['elec_-t2']
 
 		col3,col4 = st.columns(2)
 		with col3:
@@ -107,11 +109,11 @@ class Frontend():
 		#	st.pyplot(fig)
 
 		with col4:
-			st.subheader("Electricity usage")
-			fig_e=px.line(df,x='date',y=['low','high'],
+			st.subheader("Electricity")
+			fig_e=px.line(df,x='date',y=['drawn','delivered'],
 					labels={'date':'',
-						'value':'Electricity used [kWh]',
-						'variable':'Rate'
+						'value':'Electricity [kWh]',
+						'variable':'Direction'
 						}
 					)
 			st.plotly_chart(fig_e)
